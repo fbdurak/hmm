@@ -149,6 +149,7 @@ N_CHARACTERS = 9
 N_SCRAMBLINGS = 2**N_BITS-1
 
 
+# MODIFY: to modify algorithm features
 TRANSFORM_METHOD = ['NGRAM']
 NGRAM_LENGTH = 3
 
@@ -195,6 +196,8 @@ for name in names:
     print "NAME",name
 
     name = transform_states(name,transforms=None)
+
+    # MODIFY: Comment/uncomment to modify features
     # transformed_name = transform_states(name,transforms=TRANSFORM_METHOD)
     transformed_name = transform_states(name,transforms=TRANSFORM_METHOD,**{'ngram_length':NGRAM_LENGTH})
 
@@ -247,8 +250,12 @@ transitions = nltk.ConditionalProbDist(transitions, nltk.MLEProbDist)
 
 # Priors
 priors = dict()
+
+# MODIFY: Comment/uncomment to modify features
 # first_letters_counter = Counter([transform_states(list(n),transforms=TRANSFORM_METHOD)[0] for n in names])
 first_letters_counter = Counter([transform_states(list(n),transforms=TRANSFORM_METHOD,**{'ngram_length':NGRAM_LENGTH})[0] for n in names])
+
+
 first_letters_total = sum([first_letters_counter[l] for l in first_letters_counter.keys()])
 for letter in first_letters_counter.keys():
     priors[letter] = first_letters_counter[letter]/float(first_letters_total)
